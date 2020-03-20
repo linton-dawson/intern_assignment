@@ -22,32 +22,33 @@ std::string getLabel()
 //Function to authenticate username and password
 bool logAuth ( std::string uPwd )
 {
-	std::hash< std::string > ipHash;
+	//Hash matching
+	std::hash<std::string > ipHash;
 	std::string hashVal = std::to_string(ipHash(uPwd));
-	std::ifstream pwdFile("usrpwd.txt");
 	std::string str;
-	if (!pwdFile.good()) {
-		pwdFile.close();
-		std::ofstream ofile("usrpwd.txt");
-		ofile<<"2321280568577479262";
-		ofile.close();
-		std::ifstream pwdFile("usrpwd.txt");
-	}
-	pwdFile.open("usrpwd.txt", std::ifstream::in);
+
+	std::ofstream ofile("usrpwd.txt", std::ofstream::out | std::ofstream::trunc);
+	std::hash <std::string> pwHash;
+	std::string pwdStr =std::to_string(pwHash("tooroduszaphod42"));
+	ofile<<pwdStr;
+	ofile.close();
+
+	std::ifstream pwdFile("usrpwd.txt");
 	if(pwdFile.is_open()) {
 		while(std::getline(pwdFile,str) ) {
-			std::cout<<hashVal<<" hash "<<str<<std::endl;
 			if (str == hashVal){
 				pwdFile.close();
 				return true;
 			}
 		}
 	}
+
 	std::cerr<<"Incorrect password !\n";
 	pwdFile.close();
 	return false;
 }
-	
+
+
 //Function to check 10 second time interval
 const bool endVideo(std::chrono::system_clock::time_point start) {
 	auto end = std::chrono::system_clock::now();
@@ -57,15 +58,17 @@ const bool endVideo(std::chrono::system_clock::time_point start) {
 	return false;
 }
 
+
 int main()
 {
 	std::string uName, uPwd ;
-	char ch;
 	std::cout<<"Enter username : ";
 	std::cin>>uName;
 	std::cout<<"Enter password : ";
 	std::cin>>uPwd;
-	if(logAuth(uName)) {
+
+	//Authenticating username and password
+	if(logAuth(uName + uPwd)) {
 		std::cout<<"Webcam will now be starting ...\n";
 		std::this_thread::sleep_for(std::chrono::seconds(2));
 		Mat frame;
