@@ -24,10 +24,19 @@ bool logAuth ( std::string uPwd )
 {
 	std::hash< std::string > ipHash;
 	std::string hashVal = std::to_string(ipHash(uPwd));
-	std::ifstream pwdFile("../usrpwd.txt");
+	std::ifstream pwdFile("usrpwd.txt");
 	std::string str;
+	if (!pwdFile.good()) {
+		pwdFile.close();
+		std::ofstream ofile("usrpwd.txt");
+		ofile<<"2321280568577479262";
+		ofile.close();
+		std::ifstream pwdFile("usrpwd.txt");
+	}
+	pwdFile.open("usrpwd.txt", std::ifstream::in);
 	if(pwdFile.is_open()) {
 		while(std::getline(pwdFile,str) ) {
+			std::cout<<hashVal<<" hash "<<str<<std::endl;
 			if (str == hashVal){
 				pwdFile.close();
 				return true;
