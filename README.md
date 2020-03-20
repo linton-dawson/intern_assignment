@@ -1,2 +1,10 @@
 # intern_assignment
-Assignment
+OpenCV Assignment
+
+## The following project :-
+* Verifies user login and password
+* Records a 10-second video through webcam
+* Extracts red channel from frames
+* Applies Gaussian Blur to above frames
+* Saves above videos in folder "filter_vids"
+* Lists all videos currently in above directory
